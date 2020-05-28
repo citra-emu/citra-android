@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <thread>
 #include <vector>
 
 #include <EGL/egl.h>
@@ -51,9 +50,8 @@ public:
     void MakeCurrent() override;
     void DoneCurrent() override;
 
-    void StartPresenting();
+    void TryPresenting();
     void StopPresenting();
-    bool IsPresenting() const;
 
     std::unique_ptr<GraphicsContext> CreateSharedContext() const override;
 
@@ -75,8 +73,6 @@ private:
     EGLDisplay egl_display{};
 
     std::unique_ptr<Frontend::GraphicsContext> core_context;
-
-    std::unique_ptr<std::thread> presentation_thread;
 
     bool is_presenting{};
 };

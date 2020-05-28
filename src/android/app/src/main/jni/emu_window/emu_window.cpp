@@ -79,6 +79,7 @@ static void UpdateLandscapeScreenLayout() {
 
 void EmuWindow_Android::OnSurfaceChanged(ANativeWindow* surface) {
     render_window = surface;
+    StopPresenting();
 }
 
 void EmuWindow_Android::OnTouchEvent(int x, int y, bool pressed) {
@@ -218,7 +219,6 @@ void EmuWindow_Android::DestroyContext() {
 }
 
 EmuWindow_Android::~EmuWindow_Android() {
-    StopPresenting();
     DestroyWindowSurface();
     DestroyContext();
 }
@@ -227,34 +227,21 @@ std::unique_ptr<Frontend::GraphicsContext> EmuWindow_Android::CreateSharedContex
     return std::make_unique<SharedContext_Android>(egl_display, egl_config, egl_context);
 }
 
-void EmuWindow_Android::StartPresenting() {
-    ASSERT(!presentation_thread);
-    is_presenting = true;
-    presentation_thread =
-        std::make_unique<std::thread>([emu_window{this}] { emu_window->Present(); });
-}
-
 void EmuWindow_Android::StopPresenting() {
-    is_presenting = false;
-    if (presentation_thread) {
-        presentation_thread->join();
-        presentation_thread.reset();
+    if (is_presenting) {
+        eglMakeCurrent(egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+        is_presenting = false;
     }
 }
-
-bool EmuWindow_Android::IsPresenting() const {
-    return is_presenting;
-}
-
-void EmuWindow_Android::Present() {
-    eglMakeCurrent(egl_display, egl_surface, egl_surface, egl_context);
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+void EmuWindow_Android::TryPresenting() {
+    if (!is_presenting) {
+        eglMakeCurrent(egl_display, egl_surface, egl_surface, egl_context);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        is_presenting = true;
+    }
     eglSwapInterval(egl_display, Settings::values.use_vsync_new ? 1 : 0);
-    while (IsPresenting()) {
-        VideoCore::g_renderer->TryPresent(100);
-        eglSwapBuffers(egl_display, egl_surface);
-    }
-    eglMakeCurrent(egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+    VideoCore::g_renderer->TryPresent(100);
+    eglSwapBuffers(egl_display, egl_surface);
 }
 
 void EmuWindow_Android::PollEvents() {
@@ -265,14 +252,9 @@ void EmuWindow_Android::PollEvents() {
     host_window = render_window;
     render_window = nullptr;
 
-    if (IsPresenting()) {
-        StopPresenting();
-    }
-
     DestroyWindowSurface();
     CreateWindowSurface();
     OnFramebufferSizeChanged();
-    StartPresenting();
 }
 
 void EmuWindow_Android::MakeCurrent() {

@@ -28,7 +28,7 @@ class TextureDownloaderES {
                                GLint width);
 
 public:
-    TextureDownloaderES();
+    TextureDownloaderES(bool enable_depth_stencil);
 
     void GetTexImage(GLenum target, GLuint level, GLenum format, const GLenum type, GLint height,
                      GLint width, void* pixels);

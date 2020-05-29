@@ -705,7 +705,7 @@ void CachedSurface::DumpTexture(GLuint target_tex, u64 tex_hash) {
         */
         // if the backend isn't OpenGL ES, this won't be initialized yet
         if (!owner.texture_downloader_es)
-            owner.texture_downloader_es = std::make_unique<TextureDownloaderES>();
+            owner.texture_downloader_es = std::make_unique<TextureDownloaderES>(false);
         owner.texture_downloader_es->GetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE,
                                                  height, width, &decoded_texture[0]);
         state.texture_units[0].texture_2d = old_texture;
@@ -1020,7 +1020,7 @@ RasterizerCacheOpenGL::RasterizerCacheOpenGL() {
                                                          resolution_scale_factor);
     format_reinterpreter = std::make_unique<FormatReinterpreterOpenGL>();
     if (GLES)
-        texture_downloader_es = std::make_unique<TextureDownloaderES>();
+        texture_downloader_es = std::make_unique<TextureDownloaderES>(false);
 
     read_framebuffer.Create();
     draw_framebuffer.Create();

@@ -88,7 +88,7 @@ void TextureDownloaderES::Test() {
     cur_state.Apply();
 }
 
-TextureDownloaderES::TextureDownloaderES() {
+TextureDownloaderES::TextureDownloaderES(bool enable_depth_stencil) {
     vao.Create();
     read_fbo_generic.Create();
 
@@ -101,7 +101,13 @@ TextureDownloaderES::TextureDownloaderES() {
         converter.program.Create(depth_to_color_vert.data(), frag.data());
         converter.lod_location = glGetUniformLocation(converter.program.handle, "lod");
     };
-    init_program(d24s8_r32ui_conversion_shader, ds_to_color_frag);
+
+    // xperia64: The depth stencil shader currently uses a GLES extension that is not supported across all devices
+    // Reportedly broken on Tegra devices and the Nexus 6P, so enabling it can be toggled
+    if(enable_depth_stencil) {
+        init_program(d24s8_r32ui_conversion_shader, ds_to_color_frag);
+    }
+
     init_program(d24_r32ui_conversion_shader, depth_to_color_frag);
     init_program(d16_r16_conversion_shader, R"(
 out highp float color;

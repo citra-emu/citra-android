@@ -42,7 +42,7 @@ public:
     void OnSurfaceChanged(ANativeWindow* surface);
 
     /// Handles touch event that occur.(Touched or released)
-    void OnTouchEvent(int x, int y, bool pressed);
+    bool OnTouchEvent(int x, int y, bool pressed);
 
     /// Handles movement of touch pointer
     void OnTouchMoved(int x, int y);

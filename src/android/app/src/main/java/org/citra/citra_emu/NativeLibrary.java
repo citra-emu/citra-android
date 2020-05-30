@@ -96,8 +96,9 @@ public final class NativeLibrary {
      * @param x_axis  The value of the x-axis.
      * @param y_axis  The value of the y-axis
      * @param pressed To identify if the touch held down or released.
+     * @return true if the pointer is within the touchscreen
      */
-    public static native void onTouchEvent(float x_axis, float y_axis, boolean pressed);
+    public static native boolean onTouchEvent(float x_axis, float y_axis, boolean pressed);
 
     /**
      * Handles touch movement.

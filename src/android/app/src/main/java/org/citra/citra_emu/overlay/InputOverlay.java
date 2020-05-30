@@ -50,6 +50,8 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener {
 
     private SharedPreferences mPreferences;
 
+    // Stores the ID of the pointer that interacted with the 3DS touchscreen.
+    private int mTouchscreenPointerId = -1;
     /**
      * Constructor
      *
@@ -63,6 +65,9 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener {
         if (!mPreferences.getBoolean("OverlayInit", false)) {
             defaultOverlay();
         }
+
+        // Reset 3ds touchscreen pointer ID
+        mTouchscreenPointerId = -1;
 
         // Load the controls.
         refreshControls();
@@ -343,17 +348,25 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener {
             switch (event.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
                 case MotionEvent.ACTION_POINTER_DOWN:
-                    NativeLibrary.onTouchEvent(event.getX(pointerIndex), event.getY(pointerIndex), true);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    NativeLibrary.onTouchMoved(event.getX(), event.getY());
+                    if (NativeLibrary.onTouchEvent(event.getX(pointerIndex), event.getY(pointerIndex), true)) {
+                        mTouchscreenPointerId = event.getPointerId(pointerIndex);
+                    }
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_POINTER_UP:
-                    // We dont really care where the touch has been released. We only care whether it has been
-                    // released or not.
-                    NativeLibrary.onTouchEvent(0, 0, false);
+                    if (mTouchscreenPointerId == event.getPointerId(pointerIndex)) {
+                        // We don't really care where the touch has been released. We only care whether it has been
+                        // released or not.
+                        NativeLibrary.onTouchEvent(0, 0, false);
+                        mTouchscreenPointerId = -1;
+                    }
                     break;
+            }
+
+            for (int i = 0; i < event.getPointerCount(); i++) {
+                if (mTouchscreenPointerId == event.getPointerId(i)) {
+                    NativeLibrary.onTouchMoved(event.getX(i), event.getY(i));
+                }
             }
         }
 

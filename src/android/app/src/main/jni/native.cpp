@@ -343,10 +343,10 @@ jboolean Java_org_citra_citra_1emu_NativeLibrary_onGamePadAxisEvent(JNIEnv* env,
         InputManager::ButtonHandler()->AnalogButtonEvent(axis_id, axis_val));
 }
 
-void Java_org_citra_citra_1emu_NativeLibrary_onTouchEvent(JNIEnv* env,
+jboolean Java_org_citra_citra_1emu_NativeLibrary_onTouchEvent(JNIEnv* env,
                                                           [[maybe_unused]] jclass clazz, jfloat x,
                                                           jfloat y, jboolean pressed) {
-    window->OnTouchEvent((int)x, (int)y, (bool)pressed);
+    return static_cast<jboolean>(window->OnTouchEvent(static_cast<int>(x + 0.5), static_cast<int>(y + 0.5), pressed));
 }
 
 void Java_org_citra_citra_1emu_NativeLibrary_onTouchMoved(JNIEnv* env,

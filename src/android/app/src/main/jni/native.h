@@ -32,7 +32,7 @@ JNIEXPORT jboolean JNICALL Java_org_citra_citra_1emu_NativeLibrary_onGamePadMove
 JNIEXPORT jboolean JNICALL Java_org_citra_citra_1emu_NativeLibrary_onGamePadAxisEvent(
     JNIEnv* env, jclass clazz, jstring j_device, jint axis_id, jfloat axis_val);
 
-JNIEXPORT void JNICALL Java_org_citra_citra_1emu_NativeLibrary_onTouchEvent(JNIEnv* env,
+JNIEXPORT jboolean JNICALL Java_org_citra_citra_1emu_NativeLibrary_onTouchEvent(JNIEnv* env,
                                                                             jclass clazz, jfloat x,
                                                                             jfloat y,
                                                                             jboolean pressed);

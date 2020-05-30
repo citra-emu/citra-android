@@ -81,12 +81,13 @@ void EmuWindow_Android::OnSurfaceChanged(ANativeWindow* surface) {
     render_window = surface;
 }
 
-void EmuWindow_Android::OnTouchEvent(int x, int y, bool pressed) {
+bool EmuWindow_Android::OnTouchEvent(int x, int y, bool pressed) {
     if (pressed) {
-        TouchPressed((unsigned)std::max(x, 0), (unsigned)std::max(y, 0));
-    } else {
-        TouchReleased();
+        return TouchPressed((unsigned)std::max(x, 0), (unsigned)std::max(y, 0));
     }
+
+    TouchReleased();
+    return true;
 }
 
 void EmuWindow_Android::OnTouchMoved(int x, int y) {

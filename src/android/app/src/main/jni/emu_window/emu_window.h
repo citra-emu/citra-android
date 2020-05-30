@@ -74,5 +74,10 @@ private:
 
     std::unique_ptr<Frontend::GraphicsContext> core_context;
 
-    bool is_presenting{};
+    enum class PresentingState {
+        Initial,
+        Running,
+        Stopped,
+    };
+    PresentingState presenting_state{};
 };

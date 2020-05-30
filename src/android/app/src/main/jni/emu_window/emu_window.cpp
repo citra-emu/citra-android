@@ -228,16 +228,21 @@ std::unique_ptr<Frontend::GraphicsContext> EmuWindow_Android::CreateSharedContex
 }
 
 void EmuWindow_Android::StopPresenting() {
-    if (is_presenting) {
+    if (presenting_state == PresentingState::Running) {
         eglMakeCurrent(egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-        is_presenting = false;
     }
+    presenting_state = PresentingState::Stopped;
 }
+
 void EmuWindow_Android::TryPresenting() {
-    if (!is_presenting) {
-        eglMakeCurrent(egl_display, egl_surface, egl_surface, egl_context);
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-        is_presenting = true;
+    if (presenting_state != PresentingState::Running) {
+        if (presenting_state == PresentingState::Initial) {
+            eglMakeCurrent(egl_display, egl_surface, egl_surface, egl_context);
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+            presenting_state = PresentingState::Running;
+        } else {
+            return;
+        }
     }
     eglSwapInterval(egl_display, Settings::values.use_vsync_new ? 1 : 0);
     VideoCore::g_renderer->TryPresent(100);
@@ -255,6 +260,7 @@ void EmuWindow_Android::PollEvents() {
     DestroyWindowSurface();
     CreateWindowSurface();
     OnFramebufferSizeChanged();
+    presenting_state = PresentingState::Initial;
 }
 
 void EmuWindow_Android::MakeCurrent() {

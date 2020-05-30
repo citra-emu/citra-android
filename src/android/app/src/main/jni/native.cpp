@@ -223,8 +223,7 @@ void Java_org_citra_citra_1emu_NativeLibrary_SurfaceDestroyed(JNIEnv* env,
     }
 }
 
-void Java_org_citra_citra_1emu_NativeLibrary_DoFrame(JNIEnv* env,
-                                                     [[maybe_unused]] jclass clazz) {
+void Java_org_citra_citra_1emu_NativeLibrary_DoFrame(JNIEnv* env, [[maybe_unused]] jclass clazz) {
     if (!is_running || pause_emulation) {
         return;
     }

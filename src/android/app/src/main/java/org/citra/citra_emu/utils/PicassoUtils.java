@@ -32,8 +32,6 @@ public class PicassoUtils {
         Picasso
                 .get()
                 .load(Uri.parse("iso:/" + gamePath))
-                .noFade()
-                .placeholder(R.drawable.no_icon)
                 .fit()
                 .centerInside()
                 .config(Bitmap.Config.RGB_565)

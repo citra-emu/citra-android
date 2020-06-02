@@ -379,7 +379,7 @@ jintArray Java_org_citra_citra_1emu_NativeLibrary_GetIcon(JNIEnv* env,
         return 0;
     }
 
-    jintArray icon = env->NewIntArray(static_cast<jsize>(icon_data.size()));
+    jintArray icon = env->NewIntArray(static_cast<jsize>(icon_data.size() / 2));
     env->SetIntArrayRegion(icon, 0, env->GetArrayLength(icon),
                            reinterpret_cast<jint*>(icon_data.data()));
 

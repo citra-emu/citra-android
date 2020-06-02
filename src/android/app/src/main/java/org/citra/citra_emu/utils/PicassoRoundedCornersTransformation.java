@@ -12,18 +12,19 @@ import com.squareup.picasso.Transformation;
 public class PicassoRoundedCornersTransformation implements Transformation {
     @Override
     public Bitmap transform(Bitmap icon) {
-        final Rect rect = new Rect(0, 0, icon.getWidth(), icon.getHeight());
-        final int size = Math.min(icon.getWidth(), icon.getHeight());
-        final int x = (icon.getWidth() - size) / 2;
-        final int y = (icon.getHeight() - size) / 2;
+        final int width = icon.getWidth();
+        final int height = icon.getHeight();
+        final Rect rect = new Rect(0, 0, width, height);
+        final int size = Math.min(width, height);
+        final int x = (width - size) / 2;
+        final int y = (height - size) / 2;
 
         Bitmap squaredBitmap = Bitmap.createBitmap(icon, x, y, size, size);
         if (squaredBitmap != icon) {
             icon.recycle();
         }
 
-        Bitmap output =
-                Bitmap.createBitmap(icon.getWidth(), icon.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
         BitmapShader shader = new BitmapShader(squaredBitmap, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
         Paint paint = new Paint();

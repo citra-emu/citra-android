@@ -120,7 +120,7 @@ public:
         // If theres no free frames, we will reuse the oldest render frame
         if (free_queue.empty()) {
             // wait for new entries in the present_queue
-            free_cv.wait_for(lock, elapsed, [this] { return !free_queue.empty(); });
+            free_cv.wait_for(lock, elapsed, [this] { return !present_queue.empty(); });
             if (free_queue.empty()) {
                 auto frame = present_queue.back();
                 present_queue.pop_back();

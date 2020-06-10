@@ -50,7 +50,9 @@ public final class SettingsFile {
     public static final String KEY_BACKGROUND_RED = "bg_red";
     public static final String KEY_BACKGROUND_BLUE = "bg_blue";
     public static final String KEY_BACKGROUND_GREEN = "bg_green";
+    public static final String KEY_RENDER_3D = "render_3d";
     public static final String KEY_FACTOR_3D = "factor_3d";
+    public static final String KEY_PP_SHADER_NAME = "pp_shader_name";
     public static final String KEY_FILTER_MODE = "filter_mode";
     public static final String KEY_TEXTURE_FILTER_NAME = "texture_filter_name";
     public static final String KEY_USE_ASYNCHRONOUS_GPU_EMULATION = "use_asynchronous_gpu_emulation";

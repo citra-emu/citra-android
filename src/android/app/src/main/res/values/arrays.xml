@@ -153,4 +153,18 @@
         <item>1</item>
         <item>2</item>
     </integer-array>
+
+    <string-array name="render3dModes">
+        <item>Off</item>
+        <item>Side by Side</item>
+        <item>Anaglyph</item>
+        <item>Interlaced</item>
+    </string-array>
+
+    <integer-array name="render3dValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </integer-array>
 </resources>

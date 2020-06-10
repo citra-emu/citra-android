@@ -66,6 +66,7 @@
     <string name="image_flip">Image Flip</string>
 
     <!-- Graphics settings strings -->
+    <string name="renderer">Renderer</string>
     <string name="vsync">Enable V-Sync</string>
     <string name="vsync_description">Synchronizes the game frame rate to the refresh rate of your device.</string>
     <string name="linear_filtering">Enable linear filtering</string>
@@ -88,6 +89,10 @@
     <string name="internal_resolution_description">Specifies the resolution used to render at. A high resolution will improve visual quality a lot but is also quite heavy on performance and might cause glitches in certain games.</string>
     <string name="performance_warning">Turning off this setting will significantly reduce emulation performance! For the best experience, it is recommended that you leave this setting enabled.</string>
     <string name="debug_warning">Warning: Modifying these settings will slow emulation</string>
+    <string name="stereoscopy">Stereoscopy</string>
+    <string name="render3d">Stereoscopic 3D Mode</string>
+    <string name="factor3d">Depth</string>
+    <string name="factor3d_description">Specifies the value of the 3D slider. This should be set to higher than 0% when Stereoscopic 3D is enabled.</string>
 
     <!-- Premium strings -->
     <string name="premium_text">Premium</string>

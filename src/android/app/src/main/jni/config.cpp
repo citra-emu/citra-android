@@ -163,6 +163,12 @@ void Config::ReadValues() {
         static_cast<u16>(sdl2_config->GetInteger("Layout", "custom_bottom_right", 360));
     Settings::values.custom_bottom_bottom =
         static_cast<u16>(sdl2_config->GetInteger("Layout", "custom_bottom_bottom", 480));
+    Settings::values.cardboard_screen_size =
+            static_cast<int>(sdl2_config->GetInteger("Layout", "cardboard_screen_size", 85));
+    Settings::values.cardboard_x_shift =
+            static_cast<int>(sdl2_config->GetInteger("Layout", "cardboard_x_shift", 0));
+    Settings::values.cardboard_y_shift =
+            static_cast<int>(sdl2_config->GetInteger("Layout", "cardboard_y_shift", 0));
 
     // Audio
     Settings::values.enable_dsp_lle = sdl2_config->GetBoolean("Audio", "enable_dsp_lle", false);

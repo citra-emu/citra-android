@@ -59,6 +59,9 @@ public final class SettingsFile {
 
     public static final String KEY_LAYOUT_OPTION = "layout_option";
     public static final String KEY_SWAP_SCREEN = "swap_screen";
+    public static final String KEY_CARDBOARD_SCREEN_SIZE = "cardboard_screen_size";
+    public static final String KEY_CARDBOARD_X_SHIFT = "cardboard_x_shift";
+    public static final String KEY_CARDBOARD_Y_SHIFT = "cardboard_y_shift";
 
     public static final String KEY_AUDIO_OUTPUT_ENGINE = "output_engine";
     public static final String KEY_ENABLE_AUDIO_STRETCHING = "enable_audio_stretching";

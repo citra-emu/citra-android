@@ -93,6 +93,13 @@
     <string name="render3d">Stereoscopic 3D Mode</string>
     <string name="factor3d">Depth</string>
     <string name="factor3d_description">Specifies the value of the 3D slider. This should be set to higher than 0% when Stereoscopic 3D is enabled.</string>
+    <string name="cardboard_vr">Cardboard VR</string>
+    <string name="cardboard_screen_size">Cardboard Screen size</string>
+    <string name="cardboard_screen_size_description">Scales the screen to a percentage of its original size.</string>
+    <string name="cardboard_x_shift">Horizontal shift</string>
+    <string name="cardboard_x_shift_description">Specifies the percentage of empty space to shift the screens horizontally. Positive values move the two eyes closer to the middle, while negative values move them away.</string>
+    <string name="cardboard_y_shift">Vertical shift</string>
+    <string name="cardboard_y_shift_description">Specifies the percentage of empty space to shift the screens vertically. Positive values move the two eyes towards the bottom, while negative values move them towards the top.</string>
 
     <!-- Premium strings -->
     <string name="premium_text">Premium</string>

@@ -140,7 +140,7 @@ bg_blue =
 bg_green =
 
 # Whether and how Stereoscopic 3D should be rendered
-# 0 (default): Off, 1: Side by Side, 2: Anaglyph, 3: Interlaced
+# 0 (default): Off, 1: Side by Side, 2: Anaglyph, 3: Interlaced, 4: Cardboard VR
 render_3d =
 
 # Change 3D Intensity
@@ -181,6 +181,14 @@ custom_bottom_bottom =
 # For example, if Single Screen is chosen, setting this to 1 will display the bottom screen instead of the top screen.
 # 0 (default): Top Screen is prominent, 1: Bottom Screen is prominent
 swap_screen =
+
+# Screen placement settings when using Cardboard VR (render3d = 4)
+# 30 - 100: Screen size as a percentage of the viewport. 85 (default)
+cardboard_screen_size =
+# -100 - 100: Screen X-Coordinate shift as a percentage of empty space. 0 (default)
+cardboard_x_shift =
+# -100 - 100: Screen Y-Coordinate shift as a percentage of empty space. 0 (default)
+cardboard_y_shift =
 
 [Audio]
 # Whether or not to enable DSP LLE

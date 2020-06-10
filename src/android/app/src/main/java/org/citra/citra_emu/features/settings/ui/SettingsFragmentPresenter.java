@@ -358,6 +358,11 @@ public final class SettingsFragmentPresenter {
         Setting render3dMode = rendererSection.getSetting(SettingsFile.KEY_RENDER_3D);
         Setting factor3d = rendererSection.getSetting(SettingsFile.KEY_FACTOR_3D);
 
+        SettingSection layoutSection = mSettings.getSection(Settings.SECTION_LAYOUT);
+        Setting cardboardScreenSize = layoutSection.getSetting(SettingsFile.KEY_CARDBOARD_SCREEN_SIZE);
+        Setting cardboardXShift = layoutSection.getSetting(SettingsFile.KEY_CARDBOARD_X_SHIFT);
+        Setting cardboardYShift = layoutSection.getSetting(SettingsFile.KEY_CARDBOARD_Y_SHIFT);
+
         sl.add(new HeaderSetting(null, null, R.string.renderer, 0));
         sl.add(new SliderSetting(SettingsFile.KEY_RESOLUTION_FACTOR, Settings.SECTION_RENDERER, R.string.internal_resolution, R.string.internal_resolution_description, 1, 4, "x", 1, resolutionFactor));
         sl.add(new CheckBoxSetting(SettingsFile.KEY_FILTER_MODE, Settings.SECTION_RENDERER, R.string.linear_filtering, R.string.linear_filtering_description, true, filterMode));
@@ -367,6 +372,11 @@ public final class SettingsFragmentPresenter {
         sl.add(new HeaderSetting(null, null, R.string.stereoscopy, 0));
         sl.add(new SingleChoiceSetting(SettingsFile.KEY_RENDER_3D, Settings.SECTION_RENDERER, R.string.render3d, 0, R.array.render3dModes, R.array.render3dValues, 0, render3dMode));
         sl.add(new SliderSetting(SettingsFile.KEY_FACTOR_3D, Settings.SECTION_RENDERER, R.string.factor3d, R.string.factor3d_description, 0, 100, "%", 0, factor3d));
+
+        sl.add(new HeaderSetting(null, null, R.string.cardboard_vr, 0));
+        sl.add(new SliderSetting(SettingsFile.KEY_CARDBOARD_SCREEN_SIZE, Settings.SECTION_LAYOUT, R.string.cardboard_screen_size, R.string.cardboard_screen_size_description, 30, 100, "%", 85, cardboardScreenSize));
+        sl.add(new SliderSetting(SettingsFile.KEY_CARDBOARD_X_SHIFT, Settings.SECTION_LAYOUT, R.string.cardboard_x_shift, R.string.cardboard_x_shift_description, -100, 100, "%", 0, cardboardXShift));
+        sl.add(new SliderSetting(SettingsFile.KEY_CARDBOARD_Y_SHIFT, Settings.SECTION_LAYOUT, R.string.cardboard_y_shift, R.string.cardboard_y_shift_description, -100, 100, "%", 0, cardboardYShift));
     }
 
     private void addAudioSettings(ArrayList<SettingsItem> sl) {

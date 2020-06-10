@@ -15,9 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import org.citra.citra_emu.NativeLibrary;
 import org.citra.citra_emu.R;
 import org.citra.citra_emu.utils.DirectoryInitialization;
 import org.citra.citra_emu.utils.DirectoryStateReceiver;
+import org.citra.citra_emu.utils.EmulationMenuSettings;
 
 public final class SettingsActivity extends AppCompatActivity implements SettingsActivityView {
     private static final String ARG_MENU_TAG = "menu_tag";
@@ -88,6 +90,10 @@ public final class SettingsActivity extends AppCompatActivity implements Setting
         super.onStop();
 
         mPresenter.onStop(isFinishing());
+
+        // Update framebuffer layout when closing the settings
+        NativeLibrary.NotifyOrientationChange(EmulationMenuSettings.getLandscapeScreenLayout(),
+                getWindowManager().getDefaultDisplay().getRotation());
     }
 
     @Override

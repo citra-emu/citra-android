@@ -235,7 +235,9 @@ void Java_org_citra_citra_1emu_NativeLibrary_NotifyOrientationChange(JNIEnv* env
                                                                      jint layout_option,
                                                                      jint rotation) {
     Settings::values.layout_option = static_cast<Settings::LayoutOption>(layout_option);
-    VideoCore::g_renderer->UpdateCurrentFramebufferLayout(!(rotation % 2));
+    if (VideoCore::g_renderer) {
+        VideoCore::g_renderer->UpdateCurrentFramebufferLayout(!(rotation % 2));
+    }
     InputManager::screen_rotation = rotation;
     Camera::NDK::g_rotation = rotation;
 }

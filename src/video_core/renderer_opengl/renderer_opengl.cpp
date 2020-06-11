@@ -121,11 +121,9 @@ public:
         if (free_queue.empty()) {
             // wait for new entries in the present_queue
             free_cv.wait_for(lock, elapsed, [this] { return !present_queue.empty(); });
-            if (free_queue.empty()) {
-                auto frame = present_queue.back();
-                present_queue.pop_back();
-                return frame;
-            }
+            auto frame = present_queue.back();
+            present_queue.pop_back();
+            return frame;
         }
 
         Frontend::Frame* frame = free_queue.front();

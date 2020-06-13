@@ -170,15 +170,17 @@ static Core::System::ResultStatus RunCitra(const std::string& filepath) {
 
     // Audio stretching on Android is only useful with lower framerates, disable it when fullspeed
     Core::TimingEventType* audio_stretching_event{};
-    const s64 audio_stretching_ticks {msToCycles(500)};
-    audio_stretching_event = system.CoreTiming().RegisterEvent(
-            "AudioStretchingEvent", [&](u64, s64 cycles_late) {
-                if (Settings::values.enable_audio_stretching) {
-                    Core::DSP().EnableStretching(Core::System::GetInstance().GetAndResetPerfStats().emulation_speed < 0.95);
-                }
+    const s64 audio_stretching_ticks{msToCycles(500)};
+    audio_stretching_event =
+        system.CoreTiming().RegisterEvent("AudioStretchingEvent", [&](u64, s64 cycles_late) {
+            if (Settings::values.enable_audio_stretching) {
+                Core::DSP().EnableStretching(
+                    Core::System::GetInstance().GetAndResetPerfStats().emulation_speed < 0.95);
+            }
 
-                system.CoreTiming().ScheduleEvent(audio_stretching_ticks - cycles_late, audio_stretching_event);
-            });
+            system.CoreTiming().ScheduleEvent(audio_stretching_ticks - cycles_late,
+                                              audio_stretching_event);
+        });
     system.CoreTiming().ScheduleEvent(audio_stretching_ticks, audio_stretching_event);
 
     // Start running emulation
@@ -339,7 +341,8 @@ jboolean Java_org_citra_citra_1emu_NativeLibrary_onGamePadMoveEvent(JNIEnv* env,
     x = std::clamp(x, -1.f, 1.f);
     y = std::clamp(-y, -1.f, 1.f);
 
-    // Clamp the input to a circle (while touch input is already clamped in the frontend, gamepad is unknown)
+    // Clamp the input to a circle (while touch input is already clamped in the frontend, gamepad is
+    // unknown)
     float r = x * x + y * y;
     if (r > 1.0f) {
         r = std::sqrt(r);
@@ -358,9 +361,11 @@ jboolean Java_org_citra_citra_1emu_NativeLibrary_onGamePadAxisEvent(JNIEnv* env,
 }
 
 jboolean Java_org_citra_citra_1emu_NativeLibrary_onTouchEvent(JNIEnv* env,
-                                                          [[maybe_unused]] jclass clazz, jfloat x,
-                                                          jfloat y, jboolean pressed) {
-    return static_cast<jboolean>(window->OnTouchEvent(static_cast<int>(x + 0.5), static_cast<int>(y + 0.5), pressed));
+                                                              [[maybe_unused]] jclass clazz,
+                                                              jfloat x, jfloat y,
+                                                              jboolean pressed) {
+    return static_cast<jboolean>(
+        window->OnTouchEvent(static_cast<int>(x + 0.5), static_cast<int>(y + 0.5), pressed));
 }
 
 void Java_org_citra_citra_1emu_NativeLibrary_onTouchMoved(JNIEnv* env,

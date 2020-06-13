@@ -64,7 +64,8 @@ std::u16string GetTitle(std::string physical_name) {
     memcpy(&smdh, smdh_data.data(), sizeof(Loader::SMDH));
 
     // Get the title from SMDH in UTF-16 format
-    std::u16string title{reinterpret_cast<char16_t*>(smdh.titles[static_cast<int>(language)].long_title.data())};
+    std::u16string title{
+        reinterpret_cast<char16_t*>(smdh.titles[static_cast<int>(language)].long_title.data())};
 
     return title;
 }

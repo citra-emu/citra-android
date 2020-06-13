@@ -515,7 +515,7 @@ private:
                 if (!sanitize_mul) {
                     // When accurate multiplication is OFF, NaN are not really handled. This is a
                     // workaround to cheaply avoid NaN. Fixes graphical issues in Ocarina of Time.
-                    shader.AddLine("if (" + src1 + ".x != 0.0)");
+                    shader.AddLine("if ({}.x != 0.0)", src1);
                 }
                 SetDest(swizzle, dest_reg, fmt::format("(1.0 / {}.x)", src1), 4, 1);
                 break;
@@ -525,7 +525,7 @@ private:
                 if (!sanitize_mul) {
                     // When accurate multiplication is OFF, NaN are not really handled. This is a
                     // workaround to cheaply avoid NaN. Fixes graphical issues in Ocarina of Time.
-                    shader.AddLine("if (" + src1 + ".x > 0.0)");
+                    shader.AddLine("if ({}.x > 0.0)", src1);
                 }
                 SetDest(swizzle, dest_reg, fmt::format("inversesqrt({}.x)", src1), 4, 1);
                 break;

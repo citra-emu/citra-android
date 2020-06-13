@@ -628,7 +628,9 @@ static void WriteTevStage(std::string& out, const PicaFSConfig& config, unsigned
         AppendColorModifier(out, config, stage.color_modifier2, stage.color_source2, index_name);
         out += fmt::format(";\nvec3 color_results_{}_3 = ", index_name);
         AppendColorModifier(out, config, stage.color_modifier3, stage.color_source3, index_name);
-        out += fmt::format(";\nvec3 color_results_{}[3] = vec3[3](color_results_{}_1, color_results_{}_2, color_results_{}_3);\n", index_name, index_name, index_name, index_name);
+        out += fmt::format(";\nvec3 color_results_{}[3] = vec3[3](color_results_{}_1, "
+                           "color_results_{}_2, color_results_{}_3);\n",
+                           index_name, index_name, index_name, index_name);
 
         // Round the output of each TEV stage to maintain the PICA's 8 bits of precision
         out += fmt::format("vec3 color_output_{} = byteround(", index_name);

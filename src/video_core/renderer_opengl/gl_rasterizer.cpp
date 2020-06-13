@@ -790,8 +790,8 @@ bool RasterizerOpenGL::Draw(bool accelerate, bool is_indexed) {
         AllocateSurfaceTexture(temp_tex.handle, GetFormatTuple(color_surface->pixel_format),
                                color_surface->GetScaledWidth(), color_surface->GetScaledHeight());
         glCopyImageSubData(color_surface->texture.handle, GL_TEXTURE_2D, 0, 0, 0, 0,
-                           temp_tex.handle, GL_TEXTURE_2D, 0, 0, 0, 0, color_surface->GetScaledWidth(),
-                           color_surface->GetScaledHeight(), 1);
+                           temp_tex.handle, GL_TEXTURE_2D, 0, 0, 0, 0,
+                           color_surface->GetScaledWidth(), color_surface->GetScaledHeight(), 1);
         for (auto& unit : state.texture_units) {
             if (unit.texture_2d == color_surface->texture.handle)
                 unit.texture_2d = temp_tex.handle;
@@ -2024,8 +2024,8 @@ void RasterizerOpenGL::SyncShadowTextureBias() {
 }
 
 void RasterizerOpenGL::SyncAndUploadLUTsLF() {
-    constexpr std::size_t max_size = sizeof(GLvec2) * 256 * Pica::LightingRegs::NumLightingSampler +
-                                     sizeof(GLvec2) * 128;     // fog
+    constexpr std::size_t max_size =
+        sizeof(GLvec2) * 256 * Pica::LightingRegs::NumLightingSampler + sizeof(GLvec2) * 128; // fog
 
     if (!uniform_block_data.lighting_lut_dirty_any && !uniform_block_data.fog_lut_dirty) {
         return;

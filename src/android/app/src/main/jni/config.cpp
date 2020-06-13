@@ -51,12 +51,15 @@ bool Config::LoadINI(const std::string& default_contents, bool retry) {
 }
 
 static const std::array<int, Settings::NativeButton::NumButtons> default_buttons = {
-    InputManager::N3DS_BUTTON_A,  InputManager::N3DS_BUTTON_B,     InputManager::N3DS_BUTTON_X,
-    InputManager::N3DS_BUTTON_Y,  InputManager::N3DS_DPAD_UP,      InputManager::N3DS_DPAD_DOWN,
-    InputManager::N3DS_DPAD_LEFT, InputManager::N3DS_DPAD_RIGHT,   InputManager::N3DS_TRIGGER_L,
-    InputManager::N3DS_TRIGGER_R, InputManager::N3DS_BUTTON_START, InputManager::N3DS_BUTTON_SELECT,
+    InputManager::N3DS_BUTTON_A,     InputManager::N3DS_BUTTON_B,
+    InputManager::N3DS_BUTTON_X,     InputManager::N3DS_BUTTON_Y,
+    InputManager::N3DS_DPAD_UP,      InputManager::N3DS_DPAD_DOWN,
+    InputManager::N3DS_DPAD_LEFT,    InputManager::N3DS_DPAD_RIGHT,
+    InputManager::N3DS_TRIGGER_L,    InputManager::N3DS_TRIGGER_R,
+    InputManager::N3DS_BUTTON_START, InputManager::N3DS_BUTTON_SELECT,
     InputManager::N3DS_BUTTON_DEBUG, InputManager::N3DS_BUTTON_GPIO14,
-    InputManager::N3DS_BUTTON_ZL, InputManager::N3DS_BUTTON_ZR,    InputManager::N3DS_BUTTON_HOME,
+    InputManager::N3DS_BUTTON_ZL,    InputManager::N3DS_BUTTON_ZR,
+    InputManager::N3DS_BUTTON_HOME,
 };
 
 static const std::array<int, Settings::NativeAnalog::NumAnalogs> default_analogs{{
@@ -116,7 +119,7 @@ void Config::ReadValues() {
     Settings::values.shaders_accurate_mul =
         sdl2_config->GetBoolean("Renderer", "shaders_accurate_mul", false);
     Settings::values.use_asynchronous_gpu_emulation =
-            sdl2_config->GetBoolean("Renderer", "use_asynchronous_gpu_emulation", true);
+        sdl2_config->GetBoolean("Renderer", "use_asynchronous_gpu_emulation", true);
     Settings::values.use_shader_jit = sdl2_config->GetBoolean("Renderer", "use_shader_jit", true);
     Settings::values.resolution_factor =
         static_cast<u16>(sdl2_config->GetInteger("Renderer", "resolution_factor", 1));

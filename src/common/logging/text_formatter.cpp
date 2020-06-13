@@ -117,26 +117,26 @@ void PrintMessageToLogcat(const Entry& entry) {
 
     android_LogPriority android_log_priority;
     switch (entry.log_level) {
-        case Level::Trace:
-            android_log_priority = ANDROID_LOG_VERBOSE;
-            break;
-        case Level::Debug:
-            android_log_priority = ANDROID_LOG_DEBUG;
-            break;
-        case Level::Info:
-            android_log_priority = ANDROID_LOG_INFO;
-            break;
-        case Level::Warning:
-            android_log_priority = ANDROID_LOG_WARN;
-            break;
-        case Level::Error:
-            android_log_priority = ANDROID_LOG_ERROR;
-            break;
-        case Level::Critical:
-            android_log_priority = ANDROID_LOG_FATAL;
-            break;
-        case Level::Count:
-            UNREACHABLE();
+    case Level::Trace:
+        android_log_priority = ANDROID_LOG_VERBOSE;
+        break;
+    case Level::Debug:
+        android_log_priority = ANDROID_LOG_DEBUG;
+        break;
+    case Level::Info:
+        android_log_priority = ANDROID_LOG_INFO;
+        break;
+    case Level::Warning:
+        android_log_priority = ANDROID_LOG_WARN;
+        break;
+    case Level::Error:
+        android_log_priority = ANDROID_LOG_ERROR;
+        break;
+    case Level::Critical:
+        android_log_priority = ANDROID_LOG_FATAL;
+        break;
+    case Level::Count:
+        UNREACHABLE();
     }
     __android_log_print(android_log_priority, "CitraNative", "%s", str.c_str());
 #endif

@@ -127,7 +127,11 @@ vsync_enabled =
 
 # Turns on the frame limiter, which will limit frames output to the target game speed
 # 0: Off, 1: On (default)
+
 use_frame_limit_alternate =
+
+use_frame_limit =
+
 
 # Limits the speed of the game to run no faster than this value as a percentage of target speed
 # 1 - 9999: Speed limit as a percentage of target game speed. 100 (default)

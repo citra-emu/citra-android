@@ -77,6 +77,7 @@ void LogSettings() {
     };
 
     LOG_INFO(Config, "Citra Configuration:");
+
     log_setting("Core_UseCpuJit", values.use_cpu_jit);
     log_setting("Renderer_UseGLES", values.use_gles);
     log_setting("Renderer_UseHwRenderer", values.use_hw_renderer);
@@ -107,6 +108,37 @@ void LogSettings() {
     log_setting("Audio_OutputDevice", values.audio_device_id);
     log_setting("Audio_InputDeviceType", static_cast<int>(values.mic_input_type));
     log_setting("Audio_InputDevice", values.mic_input_device);
+
+    LogSetting("Core_UseCpuJit", Settings::values.use_cpu_jit);
+    LogSetting("Renderer_UseGLES", Settings::values.use_gles);
+    LogSetting("Renderer_UseHwRenderer", Settings::values.use_hw_renderer);
+    LogSetting("Renderer_UseHwShader", Settings::values.use_hw_shader);
+    LogSetting("Renderer_SeparableShader", Settings::values.separable_shader);
+    LogSetting("Renderer_ShadersAccurateMul", Settings::values.shaders_accurate_mul);
+    LogSetting("Renderer_UseShaderJit", Settings::values.use_shader_jit);
+    LogSetting("Renderer_UseResolutionFactor", Settings::values.resolution_factor);
+    LogSetting("Renderer_UseFrameLimit", Settings::values.use_frame_limit);
+    LogSetting("Renderer_FrameLimit", Settings::values.frame_limit);
+    LogSetting("Renderer_PostProcessingShader", Settings::values.pp_shader_name);
+    LogSetting("Renderer_FilterMode", Settings::values.filter_mode);
+    LogSetting("Renderer_TextureFilterName", Settings::values.texture_filter_name);
+    LogSetting("Stereoscopy_Render3d", static_cast<int>(Settings::values.render_3d));
+    LogSetting("Stereoscopy_Factor3d", Settings::values.factor_3d);
+    LogSetting("Renderer_UseAsyncGPU", Settings::values.use_asynchronous_gpu_emulation);
+    LogSetting("Layout_LayoutOption", static_cast<int>(Settings::values.layout_option));
+    LogSetting("Layout_SwapScreen", Settings::values.swap_screen);
+    LogSetting("Layout_UprightScreen", Settings::values.upright_screen);
+    LogSetting("Utility_DumpTextures", Settings::values.dump_textures);
+    LogSetting("Utility_CustomTextures", Settings::values.custom_textures);
+    LogSetting("Utility_UseDiskShaderCache", Settings::values.use_disk_shader_cache);
+    LogSetting("Audio_EnableDspLle", Settings::values.enable_dsp_lle);
+    LogSetting("Audio_EnableDspLleMultithread", Settings::values.enable_dsp_lle_multithread);
+    LogSetting("Audio_OutputEngine", Settings::values.sink_id);
+    LogSetting("Audio_EnableAudioStretching", Settings::values.enable_audio_stretching);
+    LogSetting("Audio_OutputDevice", Settings::values.audio_device_id);
+    LogSetting("Audio_InputDeviceType", static_cast<int>(Settings::values.mic_input_type));
+    LogSetting("Audio_InputDevice", Settings::values.mic_input_device);
+
     using namespace Service::CAM;
     log_setting("Camera_OuterRightName", values.camera_name[OuterRightCamera]);
     log_setting("Camera_OuterRightConfig", values.camera_config[OuterRightCamera]);

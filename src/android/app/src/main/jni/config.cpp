@@ -124,7 +124,11 @@ void Config::ReadValues() {
     Settings::values.resolution_factor =
         static_cast<u16>(sdl2_config->GetInteger("Renderer", "resolution_factor", 1));
     Settings::values.use_vsync_new = sdl2_config->GetBoolean("Renderer", "use_vsync_new", true);
+
     Settings::values.use_frame_limit_alternate = sdl2_config->GetBoolean("Renderer", "use_frame_limit_alternate", true);
+
+    Settings::values.use_frame_limit = sdl2_config->GetBoolean("Renderer", "use_frame_limit", true);
+
     Settings::values.frame_limit =
         static_cast<u16>(sdl2_config->GetInteger("Renderer", "frame_limit", 100));
 

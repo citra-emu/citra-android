@@ -46,10 +46,12 @@ constexpr std::size_t SWAP_CHAIN_SIZE = 6;
 constexpr std::size_t SWAP_CHAIN_SIZE = 9;
 #endif
 
+
 class OGLTextureMailboxException : public std::runtime_error {
 public:
     using std::runtime_error::runtime_error;
 };
+
 
 class OGLTextureMailbox : public Frontend::TextureMailbox {
 public:

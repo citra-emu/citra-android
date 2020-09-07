@@ -48,6 +48,14 @@ enum class ArchiveIdCode : u32 {
 /// Media types for the archives
 enum class MediaType : u32 { NAND = 0, SDMC = 1, GameCard = 2 };
 
+MediaType GetMediaTypeFromPath(std::string_view path);
+
+enum class SpecialContentType : u8 {
+    Update = 1,
+    Manual = 2,
+    DLPChild = 3,
+};
+
 typedef u64 ArchiveHandle;
 
 struct ArchiveResource {
@@ -86,10 +94,10 @@ public:
      * @param archive_handle Handle to an open Archive object
      * @param path Path to the File inside of the Archive
      * @param mode Mode under which to open the File
-     * @return Tuple of the opened File object and the open delay
+     * @return Pair containing the opened File object and the open delay
      */
-    std::tuple<ResultVal<std::shared_ptr<File>>, std::chrono::nanoseconds> OpenFileFromArchive(
-        ArchiveHandle archive_handle, const FileSys::Path& path, const FileSys::Mode mode);
+    std::pair<ResultVal<std::shared_ptr<File>>, std::chrono::nanoseconds> OpenFileFromArchive(
+        ArchiveHandle archive_handle, const FileSys::Path& path, FileSys::Mode mode);
 
     /**
      * Delete a File from an Archive

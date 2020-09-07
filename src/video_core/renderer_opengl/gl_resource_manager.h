@@ -59,6 +59,9 @@ public:
     /// Deletes the internal OpenGL resource
     void Release();
 
+    static void Allocate(GLenum target, GLsizei levels, GLenum internalformat, GLenum format,
+                         GLenum type, GLsizei width, GLsizei height = 1, GLsizei depth = 1);
+
     GLuint handle = 0;
 };
 
@@ -141,13 +144,13 @@ public:
 class OGLPipeline : private NonCopyable {
 public:
     OGLPipeline() = default;
-    OGLPipeline(OGLPipeline&& o) {
+    OGLPipeline(OGLPipeline&& o) noexcept {
         handle = std::exchange<GLuint>(o.handle, 0);
     }
     ~OGLPipeline() {
         Release();
     }
-    OGLPipeline& operator=(OGLPipeline&& o) {
+    OGLPipeline& operator=(OGLPipeline&& o) noexcept {
         Release();
         handle = std::exchange<GLuint>(o.handle, 0);
         return *this;
@@ -166,13 +169,13 @@ class OGLBuffer : private NonCopyable {
 public:
     OGLBuffer() = default;
 
-    OGLBuffer(OGLBuffer&& o) : handle(std::exchange(o.handle, 0)) {}
+    OGLBuffer(OGLBuffer&& o) noexcept : handle(std::exchange(o.handle, 0)) {}
 
     ~OGLBuffer() {
         Release();
     }
 
-    OGLBuffer& operator=(OGLBuffer&& o) {
+    OGLBuffer& operator=(OGLBuffer&& o) noexcept {
         Release();
         handle = std::exchange(o.handle, 0);
         return *this;
@@ -191,13 +194,13 @@ class OGLVertexArray : private NonCopyable {
 public:
     OGLVertexArray() = default;
 
-    OGLVertexArray(OGLVertexArray&& o) : handle(std::exchange(o.handle, 0)) {}
+    OGLVertexArray(OGLVertexArray&& o) noexcept : handle(std::exchange(o.handle, 0)) {}
 
     ~OGLVertexArray() {
         Release();
     }
 
-    OGLVertexArray& operator=(OGLVertexArray&& o) {
+    OGLVertexArray& operator=(OGLVertexArray&& o) noexcept {
         Release();
         handle = std::exchange(o.handle, 0);
         return *this;
@@ -216,13 +219,13 @@ class OGLFramebuffer : private NonCopyable {
 public:
     OGLFramebuffer() = default;
 
-    OGLFramebuffer(OGLFramebuffer&& o) : handle(std::exchange(o.handle, 0)) {}
+    OGLFramebuffer(OGLFramebuffer&& o) noexcept : handle(std::exchange(o.handle, 0)) {}
 
     ~OGLFramebuffer() {
         Release();
     }
 
-    OGLFramebuffer& operator=(OGLFramebuffer&& o) {
+    OGLFramebuffer& operator=(OGLFramebuffer&& o) noexcept {
         Release();
         handle = std::exchange(o.handle, 0);
         return *this;

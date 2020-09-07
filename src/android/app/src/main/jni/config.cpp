@@ -124,9 +124,14 @@ void Config::ReadValues() {
     Settings::values.resolution_factor =
         static_cast<u16>(sdl2_config->GetInteger("Renderer", "resolution_factor", 1));
     Settings::values.use_vsync_new = sdl2_config->GetBoolean("Renderer", "use_vsync_new", true);
-    Settings::values.use_frame_limit = sdl2_config->GetBoolean("Renderer", "use_frame_limit", true);
-    Settings::values.frame_limit =
-        static_cast<u16>(sdl2_config->GetInteger("Renderer", "frame_limit", 100));
+
+    // Work around to map Android setting for enabling the frame limiter to the format Citra expects
+    if (sdl2_config->GetBoolean("Renderer", "use_frame_limit", true)) {
+        Settings::values.frame_limit =
+                static_cast<u16>(sdl2_config->GetInteger("Renderer", "frame_limit", 100));
+    } else {
+        Settings::values.frame_limit = 0;
+    }
 
     Settings::values.render_3d = static_cast<Settings::StereoRenderOption>(
         sdl2_config->GetInteger("Renderer", "render_3d", 0));

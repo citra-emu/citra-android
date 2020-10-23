@@ -33,7 +33,7 @@ if (DEFINED ENV{CI})
   endif()
 
   # regex capture the string nightly or canary into CMAKE_MATCH_1
-  string(REGEX MATCH "citra-emu/citra-?(.*)" OUTVAR ${BUILD_REPOSITORY})
+  string(REGEX MATCH "citra-emu/citra-?(.*)" OUTVAR "${BUILD_REPOSITORY}")
   if ("${CMAKE_MATCH_COUNT}" GREATER 0)
     # capitalize the first letter of each word in the repo name.
     string(REPLACE "-" ";" REPO_NAME_LIST ${CMAKE_MATCH_1})
@@ -44,7 +44,7 @@ if (DEFINED ENV{CI})
       set(REPO_NAME "${REPO_NAME}${FIRST_LETTER}${REMAINDER}")
     endforeach()
     if (BUILD_TAG)
-      string(REGEX MATCH "${CMAKE_MATCH_1}-([0-9]+)" OUTVAR ${BUILD_TAG})
+      string(REGEX MATCH "${CMAKE_MATCH_1}-([0-9]+)" OUTVAR "${BUILD_TAG}")
       if (${CMAKE_MATCH_COUNT} GREATER 0)
         set(BUILD_VERSION ${CMAKE_MATCH_1})
       endif()

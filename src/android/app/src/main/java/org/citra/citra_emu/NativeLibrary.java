@@ -602,7 +602,12 @@ public final class NativeLibrary {
 
     public static native void RemoveAmiibo();
 
-    public static native void InstallCIAS(String[] path);
+    public interface CIAInstallationCallback {
+        void updateCIAStatus(int which, long newProgress, long newSize);
+        void updateCIACompletion(int which, boolean finished);
+    }
+
+    public static native boolean StartInstallCIAS(String[] path, CIAInstallationCallback callback);
 
     public static final int SAVESTATE_SLOT_COUNT = 10;
 

@@ -1,5 +1,6 @@
 package org.citra.citra_emu.ui.main;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -9,12 +10,18 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.citra.citra_emu.NativeLibrary;
 import org.citra.citra_emu.R;
 import org.citra.citra_emu.activities.EmulationActivity;
+import org.citra.citra_emu.adapters.CIAProgressAdapter;
+import org.citra.citra_emu.adapters.GameAdapter;
 import org.citra.citra_emu.features.settings.ui.SettingsActivity;
 import org.citra.citra_emu.model.GameProvider;
 import org.citra.citra_emu.ui.platform.PlatformGamesFragment;
@@ -195,8 +202,7 @@ public final class MainActivity extends AppCompatActivity implements MainView {
                 case MainPresenter.REQUEST_INSTALL_CIA:
                     // If the user picked a file, as opposed to just backing out.
                     if (resultCode == MainActivity.RESULT_OK) {
-                        NativeLibrary.InstallCIAS(FileBrowserHelper.getSelectedFiles(result));
-                        mPresenter.refeshGameList();
+                        installCIAS(FileBrowserHelper.getSelectedFiles(result));
                     }
                     break;
         }
@@ -242,6 +248,53 @@ public final class MainActivity extends AppCompatActivity implements MainView {
     private void refreshFragment() {
         if (mPlatformGamesFragment != null) {
             mPlatformGamesFragment.refresh();
+        }
+    }
+
+    private void installCIAS(String[] ciaFileNames) {
+        String[] ciaNames = new String[ciaFileNames.length];
+        for(int i = 0; i < ciaFileNames.length; i++) {
+           ciaNames[i] = ciaFileNames[i].substring(ciaFileNames[i].lastIndexOf('/')+1);
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Installing CIAs")
+               .setView(getLayoutInflater().inflate(R.layout.installation_grid, null))
+               .setPositiveButton("Ok", (dialog, which) -> {
+                   mPresenter.refeshGameList();
+               })
+               /*.setNegativeButton("Cancel", (dialog, which) -> {
+                   // TODO(xperia64): implement this when Service::AM::InstallCIA has a means to cancel installation
+               })*/
+               .setCancelable(false);
+        AlertDialog dialog = builder.create();
+        CIAProgressAdapter adapter = new CIAProgressAdapter(ciaNames);
+        dialog.setOnShowListener(d -> {
+            AlertDialog installDialog = (AlertDialog) d;
+            installDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+            RecyclerView recyclerView = installDialog.findViewById(R.id.grid_installation);
+            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
+
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+            recyclerView.addItemDecoration(new CIAProgressAdapter.SpacesItemDecoration(ContextCompat.getDrawable(this, R.drawable.gamelist_divider), 1));
+
+            adapter.setCompletionCallback(() -> {
+                runOnUiThread(() -> {
+                    installDialog.setTitle("Installation Complete");
+                    installDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                });
+            });
+        });
+
+        if(NativeLibrary.StartInstallCIAS(ciaFileNames, adapter)) {
+            dialog.show();
+        } else {
+            AlertDialog.Builder failureBuilder = new AlertDialog.Builder(this);
+            failureBuilder.setTitle("Install Failed")
+                          .setMessage("Installation already in progress (this is a bug)")
+                          .setPositiveButton("Ok", (d, which) -> {});
+            failureBuilder.create().show();
         }
     }
 

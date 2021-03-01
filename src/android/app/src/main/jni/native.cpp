@@ -634,28 +634,81 @@ void Java_org_citra_citra_1emu_NativeLibrary_RemoveAmiibo(JNIEnv* env, jclass cl
     nfc->RemoveAmiibo();
 }
 
-void Java_org_citra_citra_1emu_NativeLibrary_InstallCIAS(JNIEnv* env, [[maybe_unused]] jclass clazz,
-                                                         jobjectArray path) {
-    const jsize count{env->GetArrayLength(path)};
+struct {
+    std::atomic<bool> active{false};
+    std::atomic<jsize> idx;
     std::vector<std::string> paths;
+    std::vector<std::thread> threads;
+    JavaVM* jvm;
+    jobject callback;
+} cia_install_state;
+
+jboolean Java_org_citra_citra_1emu_NativeLibrary_StartInstallCIAS(JNIEnv* env,
+                                                                  [[maybe_unused]] jclass clazz,
+                                                                  jobjectArray path,
+                                                                  jobject callback) {
+    if (cia_install_state.active) {
+        return JNI_FALSE;
+    }
+
+    cia_install_state.active = true;
+
+    const jsize count{env->GetArrayLength(path)};
     for (jsize idx{0}; idx < count; ++idx) {
-        paths.emplace_back(
+        cia_install_state.paths.emplace_back(
             GetJString(env, static_cast<jstring>(env->GetObjectArrayElement(path, idx))));
     }
-    std::atomic<jsize> idx{count};
-    std::vector<std::thread> threads;
-    std::generate_n(std::back_inserter(threads),
-                    std::min<jsize>(std::thread::hardware_concurrency(), count), [&] {
-                        return std::thread{[&idx, &paths, env] {
-                            jsize work_idx;
-                            while ((work_idx = --idx) >= 0) {
-                                LOG_INFO(Frontend, "Installing CIA {}", work_idx);
-                                Service::AM::InstallCIA(paths[work_idx]);
-                            }
-                        }};
-                    });
-    for (auto& thread : threads)
-        thread.join();
+
+    env->GetJavaVM(&cia_install_state.jvm);
+    cia_install_state.callback = env->NewGlobalRef(callback);
+    const jclass cbclass = env->GetObjectClass(cia_install_state.callback);
+    const auto statusMethod = env->GetMethodID(cbclass, "updateCIAStatus", "(IJJ)V");
+    const auto completionMethod = env->GetMethodID(cbclass, "updateCIACompletion", "(IZ)V");
+    cia_install_state.idx = count;
+
+    // TODO(xperia64): how is the case of installing two CIAs which write the same files handled? on
+    // desktop with sequential installs this isn't really an issue, but with parallel installs here,
+    // what happens?
+    std::generate_n(
+        std::back_inserter(cia_install_state.threads),
+        std::min<jsize>(std::thread::hardware_concurrency(), count), [&] {
+            return std::thread{[statusMethod, completionMethod] {
+                jsize work_idx;
+                JNIEnv* env;
+                cia_install_state.jvm->AttachCurrentThread(&env, NULL);
+                while ((work_idx = --cia_install_state.idx) >= 0) {
+                    LOG_INFO(Frontend, "Installing CIA {}", work_idx);
+                    Service::AM::InstallStatus s = Service::AM::InstallCIA(
+                        cia_install_state.paths[work_idx],
+                        [&work_idx, &env, &statusMethod](std::size_t bytesRead, std::size_t size) {
+                            LOG_DEBUG(Frontend, "Updating CIA Progress {} {} {}", work_idx,
+                                      bytesRead, size);
+                            env->CallVoidMethod(cia_install_state.callback, statusMethod,
+                                                (jint)work_idx, (jlong)bytesRead, (jlong)size);
+                        });
+                    env->CallVoidMethod(cia_install_state.callback, completionMethod,
+                                        (jint)work_idx,
+                                        (jboolean)(s == Service::AM::InstallStatus::Success));
+                }
+                cia_install_state.jvm->DetachCurrentThread();
+            }};
+        });
+    std::thread([] {
+        JNIEnv* env;
+        // Cleanup after all installation threads have finished
+        for (auto& thread : cia_install_state.threads)
+            thread.join();
+
+        cia_install_state.threads.clear();
+        cia_install_state.paths.clear();
+
+        cia_install_state.jvm->AttachCurrentThread(&env, NULL);
+        env->DeleteGlobalRef(cia_install_state.callback);
+        cia_install_state.jvm->DetachCurrentThread();
+
+        cia_install_state.active = false;
+    }).detach();
+    return JNI_TRUE;
 }
 
 jobjectArray Java_org_citra_citra_1emu_NativeLibrary_GetSavestateInfo(

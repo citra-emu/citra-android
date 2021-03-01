@@ -75,6 +75,9 @@ public final class MainPresenter {
     }
 
     public void refeshGameList() {
+        // TODO(xperia64):  separate game database scanning from UI update
+        //                  scanLibrary can block for a relatively long time
+        //                  show a loading dialog or something and post view update when complete
         GameDatabase databaseHelper = CitraApplication.databaseHelper;
         databaseHelper.scanLibrary(databaseHelper.getWritableDatabase());
         mView.refresh();

@@ -142,9 +142,10 @@ JNIEXPORT jboolean Java_org_citra_citra_1emu_NativeLibrary_LoadAmiibo(JNIEnv* en
 
 JNIEXPORT void Java_org_citra_citra_1emu_NativeLibrary_RemoveAmiibo(JNIEnv* env, jclass clazz);
 
-JNIEXPORT void JNICALL Java_org_citra_citra_1emu_NativeLibrary_InstallCIAS(JNIEnv* env,
-                                                                           jclass clazz,
-                                                                           jobjectArray path);
+JNIEXPORT jboolean JNICALL Java_org_citra_citra_1emu_NativeLibrary_InstallCIAS(JNIEnv* env,
+                                                                               jclass clazz,
+                                                                               jobjectArray path,
+                                                                               jobject callback);
 
 JNIEXPORT jobjectArray JNICALL
 Java_org_citra_citra_1emu_NativeLibrary_GetSavestateInfo(JNIEnv* env, jclass clazz);

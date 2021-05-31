@@ -72,6 +72,7 @@ public final class EmulationActivity extends AppCompatActivity {
     public static final int MENU_ACTION_REMOVE_AMIIBO = 14;
     public static final int MENU_ACTION_JOYSTICK_REL_CENTER = 15;
     public static final int MENU_ACTION_DPAD_SLIDE_ENABLE = 16;
+    public static final int MENU_ACTION_HAPTIC_FEEDBACK = 17;
 
     public static final int REQUEST_SELECT_AMIIBO = 2;
     private static final int EMULATION_RUNNING_NOTIFICATION = 0x1000;
@@ -110,6 +111,8 @@ public final class EmulationActivity extends AppCompatActivity {
                 EmulationActivity.MENU_ACTION_JOYSTICK_REL_CENTER);
         buttonsActionsMap.append(R.id.menu_emulation_dpad_slide_enable,
                 EmulationActivity.MENU_ACTION_DPAD_SLIDE_ENABLE);
+        buttonsActionsMap.append(R.id.menu_emulation_haptic_feedback,
+                EmulationActivity.MENU_ACTION_HAPTIC_FEEDBACK);
     }
 
     private View mDecorView;
@@ -299,6 +302,7 @@ public final class EmulationActivity extends AppCompatActivity {
         menu.findItem(layoutOptionMenuItem).setChecked(true);
         menu.findItem(R.id.menu_emulation_joystick_rel_center).setChecked(EmulationMenuSettings.getJoystickRelCenter());
         menu.findItem(R.id.menu_emulation_dpad_slide_enable).setChecked(EmulationMenuSettings.getDpadSlideEnable());
+        menu.findItem(R.id.menu_emulation_haptic_feedback).setChecked(EmulationMenuSettings.getHapticFeedback());
         menu.findItem(R.id.menu_emulation_show_fps).setChecked(EmulationMenuSettings.getShowFps());
         menu.findItem(R.id.menu_emulation_swap_screens).setChecked(EmulationMenuSettings.getSwapScreens());
         menu.findItem(R.id.menu_emulation_show_overlay).setChecked(EmulationMenuSettings.getShowOverlay());
@@ -470,6 +474,11 @@ public final class EmulationActivity extends AppCompatActivity {
                 final boolean isDpadSlideEnabled = !EmulationMenuSettings.getDpadSlideEnable();
                 EmulationMenuSettings.setDpadSlideEnable(isDpadSlideEnabled);
                 item.setChecked(isDpadSlideEnabled);
+                break;
+            case MENU_ACTION_HAPTIC_FEEDBACK:
+                final boolean isHapticEnabled = !EmulationMenuSettings.getHapticFeedback();
+                EmulationMenuSettings.setHapticFeedback(isHapticEnabled);
+                item.setChecked(isHapticEnabled);
                 break;
         }
 

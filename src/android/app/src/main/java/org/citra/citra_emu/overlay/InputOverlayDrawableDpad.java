@@ -14,8 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.MotionEvent;
 
 /**
- * Custom {@link BitmapDrawable} that is capable
- * of storing it's own ID.
+ * Custom {@link BitmapDrawable} that is capable of storing it's own ID.
  */
 public final class InputOverlayDrawableDpad {
     public static final int STATE_DEFAULT = 0;
@@ -45,19 +44,17 @@ public final class InputOverlayDrawableDpad {
      *
      * @param res                             {@link Resources} instance.
      * @param defaultStateBitmap              {@link Bitmap} of the default state.
-     * @param pressedOneDirectionStateBitmap  {@link Bitmap} of the pressed state in one direction.
-     * @param pressedTwoDirectionsStateBitmap {@link Bitmap} of the pressed state in two direction.
+     * @param pressedOneDirectionStateBitmap  {@link Bitmap} of the pressed state in
+     *                                        one direction.
+     * @param pressedTwoDirectionsStateBitmap {@link Bitmap} of the pressed state in
+     *                                        two direction.
      * @param buttonUp                        Identifier for the up button.
      * @param buttonDown                      Identifier for the down button.
      * @param buttonLeft                      Identifier for the left button.
      * @param buttonRight                     Identifier for the right button.
      */
-    public InputOverlayDrawableDpad(Resources res,
-                                    Bitmap defaultStateBitmap,
-                                    Bitmap pressedOneDirectionStateBitmap,
-                                    Bitmap pressedTwoDirectionsStateBitmap,
-                                    int buttonUp, int buttonDown,
-                                    int buttonLeft, int buttonRight) {
+    public InputOverlayDrawableDpad(Resources res, Bitmap defaultStateBitmap, Bitmap pressedOneDirectionStateBitmap,
+            Bitmap pressedTwoDirectionsStateBitmap, int buttonUp, int buttonDown, int buttonLeft, int buttonRight) {
         mDefaultStateBitmap = new BitmapDrawable(res, defaultStateBitmap);
         mPressedOneDirectionStateBitmap = new BitmapDrawable(res, pressedOneDirectionStateBitmap);
         mPressedTwoDirectionsStateBitmap = new BitmapDrawable(res, pressedTwoDirectionsStateBitmap);
@@ -189,5 +186,9 @@ public final class InputOverlayDrawableDpad {
 
     public void setState(int pressState) {
         mPressState = pressState;
+    }
+
+    public int getState() {
+        return mPressState;
     }
 }

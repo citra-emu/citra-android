@@ -188,6 +188,7 @@
     <string name="do_not_show_this_again">Do not show this again</string>
     <string name="savestate_warning_title">Savestates</string>
     <string name="savestate_warning_message">Warning: Savestates are NOT a replacement for in-game saves, and are not meant to be reliable.\n\nUse at your own risk!</string>
+    <string name="haptic_feedback">Haptic feedback</string>
 
     <!-- Software Keyboard -->
     <string name="software_keyboard">Software Keyboard</string>

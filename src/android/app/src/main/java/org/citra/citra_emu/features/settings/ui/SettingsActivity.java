@@ -97,13 +97,11 @@ public final class SettingsActivity extends AppCompatActivity implements Setting
     }
 
     @Override
-    public void onBackPressed() {
-        mPresenter.onBackPressed();
-    }
-
-
-    @Override
     public void showSettingsFragment(String menuTag, boolean addToStack, String gameID) {
+        if (!addToStack && getFragment() != null) {
+            return;
+        }
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         if (addToStack) {
@@ -116,7 +114,6 @@ public final class SettingsActivity extends AppCompatActivity implements Setting
             }
 
             transaction.addToBackStack(null);
-            mPresenter.addToStack();
         }
         transaction.replace(R.id.frame_content, SettingsFragment.newInstance(menuTag, gameID), FRAGMENT_TAG);
 
@@ -205,11 +202,6 @@ public final class SettingsActivity extends AppCompatActivity implements Setting
     @Override
     public void showToastMessage(String message, boolean is_long) {
         Toast.makeText(this, message, is_long ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void popBackStack() {
-        getSupportFragmentManager().popBackStackImmediate();
     }
 
     @Override

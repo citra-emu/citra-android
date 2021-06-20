@@ -94,7 +94,7 @@ void LogSettings() {
     log_setting("Renderer_PostProcessingShader", values.pp_shader_name);
     log_setting("Renderer_FilterMode", values.filter_mode);
     log_setting("Renderer_TextureFilterName", values.texture_filter_name);
-    log_setting("Renderer_UseAsyncGPU", Settings::values.use_asynchronous_gpu_emulation);
+    log_setting("Renderer_UseAsyncGPU", values.use_asynchronous_gpu_emulation);
     log_setting("Stereoscopy_Render3d", values.render_3d);
     log_setting("Stereoscopy_Factor3d", values.factor_3d);
     log_setting("Layout_LayoutOption", values.layout_option);
